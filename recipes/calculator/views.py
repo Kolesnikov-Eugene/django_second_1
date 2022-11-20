@@ -22,20 +22,18 @@ DATA = {
 
 def recipe_view(request, recipe):
     servings = None
+    data_for_context = dict()
+    context = dict()
     if request.GET:
         servings = int(request.GET.get('qnt'))
     else:
         servings = 1
-
-    data_for_context = dict()
     if recipe in DATA.keys():
         for item, value in DATA[recipe].items():
             data_for_context[item] = round(value * servings, 2)
-
         context = {
             'recipe': data_for_context
         }
-        return render(request, 'calculator/index.html', context=context)
-    else:
-        return HttpResponse('no recipe for the dish or incorrect name of the dish')
+    return render(request, 'calculator/index.html', context=context)
+
 
